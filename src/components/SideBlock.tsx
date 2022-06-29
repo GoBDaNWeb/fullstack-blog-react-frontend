@@ -6,7 +6,12 @@ import "../styles/modules/sideBlock/index.scss";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 
-export default function SideBlock({ title, children }) {
+type SideBlockProps = {
+	title: string,
+	children: any
+}
+
+const SideBlock: React.FC<SideBlockProps> = ({ title, children }) => {
 	return (
 		<Paper elevation={1} classes={{ root: 'sideBlock' }}>
 			<Typography 
@@ -19,3 +24,5 @@ export default function SideBlock({ title, children }) {
 		</Paper>
 	);
 };
+
+export default SideBlock

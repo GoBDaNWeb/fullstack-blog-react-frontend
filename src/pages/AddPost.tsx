@@ -7,7 +7,7 @@ import axios from '../axios'
 
 // * redux
 import { useSelector} from 'react-redux'
-import {selectIsAuth} from '../redux/slices/auth'
+import {selectIsAuth} from '../redux/auth/selectors'
 
 // * styles/MUI
 import TextField from '@mui/material/TextField';
@@ -17,21 +17,28 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import "../styles/modules/addPost/index.css";
 
-export default function AddPost() {
+interface OptionsData {
+	spellChecker: boolean,
+	maxHeight: string,
+	autofocus: boolean,
+	placeholder: string,
+	status: boolean,
+}
+
+const AddPost: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)
 	const navigate = useNavigate()
 	const {id} = useParams()
-
-	const [isLoading, setLoading] = useState(false)
+	
 	const [text, setText] = useState('')
 	const [title, setTitle] = useState('')
 	const [tags, setTags] = useState('')
 	const [imageUrl, setImageUrl] = useState('')
-	const inputFileRef = useRef(null)
+	const inputFileRef = useRef<HTMLInputElement>(null)
 
 	const isEditing = Boolean(id)
 
-	const handleChangeFile = async (e) => {
+	const handleChangeFile = async (e: any ) => {
 		try {
 			const formData = new FormData()
 			const file = e.target.files[0]
@@ -48,14 +55,12 @@ export default function AddPost() {
 		setImageUrl('')
 	}
 
-	const onChange = useCallback((value) => {
+	const onChange = useCallback((value: string) => {
 		setText(value)
 	}, [])
 
 	const onSubmit = async () => {
 		try {
-			setLoading(true)
-
 			const fields = {
 				title,
 				imageUrl,
@@ -96,11 +101,7 @@ export default function AddPost() {
 			autofocus: true,
 			placeholder: 'Введите текст...',
 			status: false,
-			autosave: {
-				enabled: true,
-				delay: 1000,
-			},
-		}
+		} 
 	), []);
  
 	if (!window.localStorage.getItem('token') && !isAuth) {
@@ -110,7 +111,7 @@ export default function AddPost() {
 	return (
 		<Paper style={{ padding: 30 }}>
 			<Button 
-				onClick={() => inputFileRef.current.click()}
+				onClick={() => inputFileRef.current?.click()}
 				variant="outlined" 
 				size="large"
 			>
@@ -181,3 +182,5 @@ export default function AddPost() {
 		</Paper>
 	);
 };
+
+export default AddPost

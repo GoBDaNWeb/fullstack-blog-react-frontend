@@ -3,8 +3,8 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 
 // * redux 
-import {useDispatch} from 'react-redux'
-import {fetchRemovePost} from '../redux/slices/posts'
+import {useAppDispatch} from '../redux/store'
+import {fetchRemovePost} from '../redux/posts/postSlice'
 
 // * styles/MUI
 import IconButton from '@mui/material/IconButton';
@@ -18,23 +18,22 @@ import '../styles/modules/post/index.css';
 import UserInfo from './UserInfo';
 import PostSkeleton from './Skeleton';
 
-export default function Post({
-  id,
-  title,
-  createdAt,
-  imageUrl,
-  user,
-  viewsCount,
-  tags,
-  children,
-  isFullPost,
-  isLoading,
-  isEditable,
-}) {
-	const dispatch = useDispatch()
-	if (isLoading) {
-		return <PostSkeleton />
-	}
+type PostProps = {
+	id: string,
+	title: string,
+	createdAt: string,
+	imageUrl: string,
+	author: Record<string, string>,
+	viewsCount: number,
+	tags: string[],
+	children?: any,
+	isFullPost?: boolean,
+	isLoading?: boolean,
+	isEditable?: boolean
+}
+
+const Post: React.FC<PostProps> = ({id,title,createdAt,imageUrl,author,viewsCount,tags,children,isFullPost,isLoading,isEditable}) => {
+	const dispatch = useAppDispatch()
 
 	const onClickRemove = () => {
 		if (window.confirm('Вы действительно хотите удалить статью?')) {
@@ -42,8 +41,10 @@ export default function Post({
 		}
 	}
 
-	console.log(imageUrl)
-	console.log(isFullPost)
+	if (isLoading) {
+		return <PostSkeleton />
+	}
+
 	return (
 		<div className={`post ${ isFullPost ? 'postFull': '' }`}>
 			{isEditable && (
@@ -71,7 +72,7 @@ export default function Post({
 					)
 				}
 			<div className='wrapper'>
-				<UserInfo {...user} additionalText={createdAt} />
+				<UserInfo {...author} additionalText={createdAt} />
 				<div className='indention'>
 					<h2 className={`title ${isFullPost ? 'titleFull' : '' }`}>
 						{
@@ -110,3 +111,5 @@ export default function Post({
 		</div>
 	);
 };
+
+export default Post

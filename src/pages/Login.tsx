@@ -4,8 +4,11 @@ import {useForm} from 'react-hook-form'
 import {Navigate} from 'react-router-dom'
 
 // * redux 
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchLogin, selectIsAuth} from '../redux/slices/auth'
+import {useSelector} from 'react-redux'
+import {useAppDispatch} from '../redux/store'
+import {fetchLogin} from '../redux/auth/authSlice'
+import {selectIsAuth} from '../redux/auth/selectors'
+import {AuthLoginParams, AuthDataType} from '../redux/auth/types'
 
 // * styles/MUI
 import Typography from "@mui/material/Typography";
@@ -14,9 +17,9 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import "../styles/modules/login/index.css";
 
-export default function Login() {
+const Login: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 
 	const {register, handleSubmit, setError, formState: {errors, isValid}} = useForm({
 		defaultValues: {
@@ -26,14 +29,15 @@ export default function Login() {
 		mode: 'onChange'
 	})
 
-	const onSubmit = async (value) => {
-		const data = await dispatch(fetchLogin(value))
-		if (!data.payload) {
-			return alert('Не удалось авторизоваться')
-		}
-
-		if ('token' in data.payload) {
-			window.localStorage.setItem('token', data.payload.token)
+	const onSubmit = async (value: AuthLoginParams): Promise<any> => {
+		try {
+			const {payload} = await dispatch(fetchLogin(value))
+			if (!payload) {
+				return alert('Не удалось авторизоваться')
+			}
+		} catch (err) {
+			console.log(err);
+			
 		}
 	}
 
@@ -80,3 +84,5 @@ export default function Login() {
 		</Paper>
 	);
 };
+
+export default Login

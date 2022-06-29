@@ -4,8 +4,11 @@ import {useParams} from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 
 // * redux 
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchPostsByTags} from '../redux/slices/posts'
+import {useSelector} from 'react-redux'
+import {useAppDispatch} from '../redux/store'
+import {fetchPostsByTags} from '../redux/posts/postSlice'
+import {selectPosts} from '../redux/posts/selectors'
+import {selectAuthData} from '../redux/auth/selectors'
 
 // * axios
 import axios from '../axios'
@@ -19,21 +22,35 @@ import '../styles/modules/postByTags/index.css';
 import Post from "../components/Post";
 import TagsBlock from '../components/TagsBlock';
 
-export default function PostByTags() {
-	const [posts, setPosts] = useState()
-    const dispatch = useDispatch()
+type AuthorType = {
+	_id: string,
+	fullName: string,
+	email: string,
+}
 
-	const { postsByTags, tags } = useSelector(state => state.posts)
-	const userData = useSelector(state => state.auth.data)
+type PostData  = {
+	_id: string,
+	title: string,
+	text: string,
+	tags: string[],
+	viewsCount: number,
+	author: Record<string, string>,
+	imageUrl: string,
+	createdAt: string
+}
+
+const PostByTags: React.FC = ()  =>{
+    const dispatch = useAppDispatch()
+
+	const { postsByTags, tags } = useSelector(selectPosts)
+	const userData = useSelector(selectAuthData)
 
 	const isPostsByTagsLoading = postsByTags.status === 'loading'
 	const isTagsLoading = tags.status === 'loading'
 
 	const {id} = useParams()
-	const fetch = async () => {
-		console.log(id)
-		const data = await dispatch(fetchPostsByTags(id))
-		setPosts(data.payload)
+	const fetch = async (): Promise<void> => {
+		const {payload} = await dispatch(fetchPostsByTags(String(id)))
 	}
 	
 	useEffect(() => {
@@ -62,16 +79,15 @@ export default function PostByTags() {
 								isPostsByTagsLoading 
 								? [...Array(5)]
 								: postsByTags.items
-							).map((post, index) => (
+							).map((post: PostData, index: number) => (
 								<Post
 									id={post?._id}
 									key={index}
 									title={post?.title}
 									imageUrl={post?.imageUrl ? `http://localhost:1818${post.imageUrl}` : ''}
-									user={post?.author}
+									author={post?.author}
 									createdAt={post?.createdAt}
 									viewsCount={post?.viewsCount}
-									commentsCount={3}
 									tags={post?.tags}
 									isEditable={userData?._id === post?.author._id}
 									isLoading={!post ? true : false}
@@ -94,3 +110,5 @@ export default function PostByTags() {
 		</>
 	);
 };
+
+export default PostByTags

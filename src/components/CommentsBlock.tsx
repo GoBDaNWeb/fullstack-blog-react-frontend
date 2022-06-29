@@ -16,14 +16,29 @@ import Skeleton from "@mui/material/Skeleton";
 // * components
 import SideBlock from "./SideBlock";
 
-export default function CommentsBlock({ comments, children, isLoading = true }) {
+type CommentType = {
+	_id: string,
+	text: string,
+	author: Record<string, string>,
+	postId: string,
+	updatedAt: string,
+	createdAt: string,
+}
+
+type CommentsBlockProps = {
+	comments: CommentType[] | [],
+	children: any,
+	isLoading: boolean
+}
+
+const CommentsBlock: React.FC<CommentsBlockProps> = ({ comments, children, isLoading = true }) => {
 	return (
 		<SideBlock title="Комментарии">
 			<List>
 			{
 				(isLoading 
 					? [...Array(5)] 
-					: comments).map((comment, index) => (
+					: comments).map((comment: CommentType, index: number) => (
 						<React.Fragment key={index}>
 							<ListItem alignItems="flex-start">
 								<ListItemAvatar>
@@ -69,3 +84,5 @@ export default function CommentsBlock({ comments, children, isLoading = true }) 
 		</SideBlock>
 	);
 };
+
+export default CommentsBlock

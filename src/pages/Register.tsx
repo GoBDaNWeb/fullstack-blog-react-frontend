@@ -4,8 +4,11 @@ import {useForm} from 'react-hook-form'
 import {Navigate} from 'react-router-dom'
 
 // * redux 
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchRegister, selectIsAuth} from '../redux/slices/auth'
+import { useSelector} from 'react-redux'
+import {useAppDispatch} from '../redux/store'
+import {fetchRegister} from '../redux/auth/authSlice'
+import {selectIsAuth} from '../redux/auth/selectors'
+import {AuthRegisterParams} from '../redux/auth/types'
 
 // * styles/MUI
 import Typography from '@mui/material/Typography';
@@ -15,28 +18,24 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import "../styles/modules/register/index.css";
 
-export default function Register() {
+const Register: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 
 	const {register, handleSubmit, setError, formState: {errors, isValid}} = useForm({
 		defaultValues: {
 			fullName: '',
 			email: '',
-			password: ''
+			password: '',
 		},
 		mode: 'onChange'
 	})
 
-	const onSubmit = async (value) => {
+	const onSubmit = async (value: AuthRegisterParams): Promise<any> => {
 		console.log(value);
 		const data = await dispatch(fetchRegister(value))
 		if (!data.payload) {
 			return alert('Не удалось авторизоваться')
-		}
-
-		if ('token' in data.payload) {
-			window.localStorage.setItem('token', data.payload.token)
 		}
 	}
 
@@ -96,3 +95,5 @@ export default function Register() {
 		</Paper>
 	);
 };
+
+export default Register

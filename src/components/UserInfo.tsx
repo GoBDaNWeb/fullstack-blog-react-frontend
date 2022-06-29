@@ -4,7 +4,7 @@ import React from 'react';
 // * styles/MUI
 import '../styles/modules/userInfo/index.css';
 
-export default function UserInfo({ avatarUrl, fullName, additionalText }) {
+const UserInfo: React.FC<Record<string, string>> = ({ avatarUrl, fullName, additionalText }) => {
 	return (
 		<div className='userInfo'>
 			<img 
@@ -23,3 +23,5 @@ export default function UserInfo({ avatarUrl, fullName, additionalText }) {
 		</div>
 	);
 };
+
+export default UserInfo

@@ -4,14 +4,15 @@ import {Link} from 'react-router-dom'
 
 // * redux 
 import {useDispatch, useSelector} from 'react-redux'
-import {selectIsAuth, logout} from '../redux/slices/auth'
+import {logout} from '../redux/auth/authSlice'
+import {selectIsAuth} from '../redux/auth/selectors'
 
 // * styles/MUI
 import Button from '@mui/material/Button';
 import '../styles/modules/header/index.css';
 import Container from '@mui/material/Container';
 
-export default function Header() {
+const Header: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)
 
 	const dispatch = useDispatch()
@@ -71,3 +72,6 @@ export default function Header() {
 		</div>
 	);
 };
+
+
+export default Header

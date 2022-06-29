@@ -14,7 +14,12 @@ import Skeleton from "@mui/material/Skeleton";
 // * components
 import SideBlock from "./SideBlock";
 
-export default function TagsBlock({ items, isLoading = true }) {
+type TagsBlockProps = {
+	items: string[],
+	isLoading: boolean,
+}
+
+const TagsBlock: React.FC<TagsBlockProps> = ({ items, isLoading = true }) => {
 	return (
 		<SideBlock title="Тэги">
 			<List>
@@ -22,6 +27,7 @@ export default function TagsBlock({ items, isLoading = true }) {
 				<Link
 					style={{ textDecoration: "none", color: "black" }}
 					to={`/tags/${name}`}
+					key={i}
 				>
 					<ListItem key={i} disablePadding>
 					<ListItemButton>
@@ -31,7 +37,7 @@ export default function TagsBlock({ items, isLoading = true }) {
 						{isLoading ? (
 						<Skeleton width={100} />
 						) : (
-						<ListItemText primary={name} />
+							<ListItemText primary={name} />
 						)}
 					</ListItemButton>
 					</ListItem>
@@ -41,3 +47,5 @@ export default function TagsBlock({ items, isLoading = true }) {
 		</SideBlock>
 	);
 };
+
+export default TagsBlock

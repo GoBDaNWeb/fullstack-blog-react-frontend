@@ -1,10 +1,12 @@
 // * react 
-import {useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { Routes, Route} from 'react-router-dom'
 
 // * redux 
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchAuth, selectIsAuth} from './redux/slices/auth'
+import {useSelector} from 'react-redux'
+import {useAppDispatch} from './redux/store'
+import {fetchAuth} from './redux/auth/authSlice'
+import {selectIsAuth} from './redux/auth/selectors'
 
 // * styles/MUI
 import Container from "@mui/material/Container";
@@ -18,8 +20,8 @@ import AddPost from './pages/AddPost'
 import Login from './pages/Login'
 import PostByTags from "./pages/PostByTags";
 
-function App() {
-	const dispatch = useDispatch()
+const App: React.FC = () => {
+	const dispatch = useAppDispatch()
 	const isAuth = useSelector(selectIsAuth)
 
 	useEffect(() => {

@@ -1,5 +1,5 @@
 // * react
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useParams} from 'react-router-dom'
 
 // * axios 
@@ -8,10 +8,9 @@ import axios from '../axios'
 // * styles/MUI
 import "../styles/modules/addComment/index.css";
 import TextField from "@mui/material/TextField";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
-export default function AddComment()  {
+const AddComment: React.FC = () => {
 	const [comment, setComment] = useState('')
 	const {id} = useParams()
 
@@ -44,3 +43,5 @@ export default function AddComment()  {
 		</>
 	);
 };
+
+export default AddComment

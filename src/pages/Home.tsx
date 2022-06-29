@@ -2,8 +2,12 @@
 import React, {useEffect, useState} from 'react';
 
 // * redux
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchAllPosts, fetchPopularPosts, fetchTags} from '../redux/slices/posts'
+import {useSelector} from 'react-redux'
+import {useAppDispatch} from '../redux/store'
+import {selectPosts} from '../redux/posts/selectors'
+import {selectAuthData} from '../redux/auth/selectors'
+import {fetchAllPosts, fetchPopularPosts, fetchTags} from '../redux/posts/postSlice'
+
 
 // * styles
 import Tabs from '@mui/material/Tabs';
@@ -16,9 +20,8 @@ import Box from '@mui/material/Box';
 // * components
 import Post from '../components/Post';
 import TagsBlock from '../components/TagsBlock';
-import CommentsBlock from '../components/CommentsBlock';
 
-function TabPanel(props) {
+function TabPanel(props: any) {
 	const { children, value, index, ...other } = props;
   
 	return (
@@ -45,23 +48,34 @@ TabPanel.propTypes = {
 };
 
 
-function a11yProps(index) {
+function a11yProps(index: number) {
 	return {
 	  id: `simple-tab-${index}`,
 	  'aria-controls': `simple-tabpanel-${index}`,
 	};
 }
 
-export default function Home() {
+type PostData  = {
+	_id: string,
+	title: string,
+	text: string,
+	tags: string[],
+	viewsCount: number,
+	author: Record<string, string>,
+	imageUrl: string,
+	createdAt: string
+}
+
+const Home: React.FC = () => {
 	const [value, setValue] = useState(0)
 
-	const handleChange = (event, newValue) => {
+	const handleChange = (event: any, newValue: any) => {
 		setValue(newValue);
 	  };	
 
-	const dispatch = useDispatch()
-	const { posts, popularPosts, tags } = useSelector(state => state.posts)
-	const userData = useSelector(state => state.auth.data)
+	const dispatch = useAppDispatch()
+	const { posts, popularPosts, tags } = useSelector(selectPosts)
+	const userData = useSelector(selectAuthData)
 
 	const isPostsLoading = posts.status === 'loading'
 	const isPopularPostsLoading = popularPosts.status === 'loading'
@@ -102,22 +116,21 @@ export default function Home() {
 					xs={8} 
 					item
 				>
-					<TabPanel value={value} index={0} className='heh'>
+					<TabPanel value={value} index={0}>
 						{
 							(
 								isPostsLoading 
 								? [...Array(5)]
 								: posts.items
-							).map((post, index) => (
+							).map((post: PostData, index: number) => (
 								<Post
 									id={post?._id}
 									key={index}
 									title={post?.title}
 									imageUrl={post?.imageUrl ? `http://localhost:1818${post.imageUrl}` : ''}
-									user={post?.author}
+									author={post?.author}
 									createdAt={post?.createdAt}
 									viewsCount={post?.viewsCount}
-									commentsCount={3}
 									tags={post?.tags}
 									isEditable={userData?._id === post?.author._id}
 									isLoading={!post ? true : false}
@@ -131,16 +144,15 @@ export default function Home() {
 								isPopularPostsLoading 
 								? [...Array(5)]
 								: popularPosts.items
-							).map((post, index) => (
+							).map((post: PostData, index: number) => (
 								<Post
 									id={post?._id}
 									key={index}
 									title={post?.title}
 									imageUrl={post?.imageUrl ? `http://localhost:1818${post.imageUrl}` : ''}
-									user={post?.author}
+									author={post?.author}
 									createdAt={post?.createdAt}
 									viewsCount={post?.viewsCount}
-									commentsCount={3}
 									tags={post?.tags}
 									isEditable={userData?._id === post?.author._id}
 									isLoading={!post ? true : false}
@@ -166,3 +178,5 @@ export default function Home() {
 		</>
 	);
 };
+
+export default Home
