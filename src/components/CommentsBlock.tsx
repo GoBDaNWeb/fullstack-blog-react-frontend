@@ -1,9 +1,6 @@
 // * react
 import React from "react";
 
-// * axios 
-import axios from 'axios'
-
 // * styles/MUI
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -27,7 +24,7 @@ type CommentType = {
 
 type CommentsBlockProps = {
 	comments: CommentType[] | [],
-	children: any,
+	children: React.ReactNode,
 	isLoading: boolean
 }
 

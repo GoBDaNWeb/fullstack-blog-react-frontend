@@ -30,16 +30,22 @@ const AddPost: React.FC = () => {
 	const navigate = useNavigate()
 	const {id} = useParams()
 	
-	const [text, setText] = useState('')
-	const [title, setTitle] = useState('')
-	const [tags, setTags] = useState('')
-	const [imageUrl, setImageUrl] = useState('')
+	const [text, setText] = useState<string>('')
+	const [title, setTitle] = useState<string>('')
+	const [tags, setTags] = useState<string>('')
+	const [imageUrl, setImageUrl] = useState<string>('')
 	const inputFileRef = useRef<HTMLInputElement>(null)
 
 	const isEditing = Boolean(id)
 
-	const handleChangeFile = async (e: any ) => {
+	const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement> ): Promise<void> => {
 		try {
+			if (!e.target.files) {
+				return
+			}
+			console.log(e)
+			console.log(e.target)
+			console.log(e.target.files)
 			const formData = new FormData()
 			const file = e.target.files[0]
 			formData.append('image', file)
@@ -51,15 +57,15 @@ const AddPost: React.FC = () => {
 		}
 	}
 
-	const onClickRemoveImage = () => {
+	const onClickRemoveImage = (): void => {
 		setImageUrl('')
 	}
 
-	const onChange = useCallback((value: string) => {
+	const onChange = useCallback((value: string): void => {
 		setText(value)
 	}, [])
 
-	const onSubmit = async () => {
+	const onSubmit = async (): Promise<void> => {
 		try {
 			const fields = {
 				title,
@@ -80,7 +86,7 @@ const AddPost: React.FC = () => {
 		}
 	}
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (id) {
 			axios.get(`/posts/${id}`).then(({data}) => {
 				setTitle(data.title)
@@ -94,7 +100,7 @@ const AddPost: React.FC = () => {
 		}
 	}, [])
 
-	const options = useMemo(() => (
+	const options = useMemo<OptionsData>(() => (
 		{
 			spellChecker: false,
 			maxHeight: '400px',

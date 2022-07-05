@@ -11,7 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import '../styles/modules/post/index.css';
 
 // * components
@@ -26,7 +25,7 @@ type PostProps = {
 	author: Record<string, string>,
 	viewsCount: number,
 	tags: string[],
-	children?: any,
+	children?: React.ReactNode,
 	isFullPost?: boolean,
 	isLoading?: boolean,
 	isEditable?: boolean
@@ -35,7 +34,7 @@ type PostProps = {
 const Post: React.FC<PostProps> = ({id,title,createdAt,imageUrl,author,viewsCount,tags,children,isFullPost,isLoading,isEditable}) => {
 	const dispatch = useAppDispatch()
 
-	const onClickRemove = () => {
+	const onClickRemove = (): void => {
 		if (window.confirm('Вы действительно хотите удалить статью?')) {
 			dispatch(fetchRemovePost(id))
 		}

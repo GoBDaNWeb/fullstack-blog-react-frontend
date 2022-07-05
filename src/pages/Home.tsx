@@ -21,7 +21,13 @@ import Box from '@mui/material/Box';
 import Post from '../components/Post';
 import TagsBlock from '../components/TagsBlock';
 
-function TabPanel(props: any) {
+type TabPanelType = {
+	children?: React.ReactNode[],
+	index: number,
+	value: number
+}
+
+function TabPanel(props: TabPanelType) {
 	const { children, value, index, ...other } = props;
   
 	return (
@@ -34,7 +40,7 @@ function TabPanel(props: any) {
 		>
 			{value === index && (
 			<Box sx={{ p: 3 }}>
-				<Typography>{children}</Typography>
+				<Typography component="div">{children}</Typography>
 			</Box>
 			)}
 		</div>
@@ -67,9 +73,9 @@ type PostData  = {
 }
 
 const Home: React.FC = () => {
-	const [value, setValue] = useState(0)
+	const [value, setValue] = useState<number>(0)
 
-	const handleChange = (event: any, newValue: any) => {
+	const handleChange = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
 		setValue(newValue);
 	  };	
 
@@ -77,16 +83,16 @@ const Home: React.FC = () => {
 	const { posts, popularPosts, tags } = useSelector(selectPosts)
 	const userData = useSelector(selectAuthData)
 
-	const isPostsLoading = posts.status === 'loading'
-	const isPopularPostsLoading = popularPosts.status === 'loading'
-	const isTagsLoading = tags.status === 'loading'
+	const isPostsLoading: boolean = posts.status === 'loading'
+	const isPopularPostsLoading: boolean = popularPosts.status === 'loading'
+	const isTagsLoading: boolean = tags.status === 'loading'
 	
-	useEffect(() => {
+	useEffect((): void => {
 		dispatch(fetchAllPosts())
 		dispatch(fetchPopularPosts())
 	}, [value])
 
-	useEffect(() => {
+	useEffect((): void => {
 		dispatch(fetchTags())
 	}, [])
 

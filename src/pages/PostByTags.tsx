@@ -1,7 +1,6 @@
 // * react 
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import {useParams} from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
 
 // * redux 
 import {useSelector} from 'react-redux'
@@ -9,9 +8,6 @@ import {useAppDispatch} from '../redux/store'
 import {fetchPostsByTags} from '../redux/posts/postSlice'
 import {selectPosts} from '../redux/posts/selectors'
 import {selectAuthData} from '../redux/auth/selectors'
-
-// * axios
-import axios from '../axios'
 
 // * styles/MUI
 import Grid from '@mui/material/Grid';
@@ -22,11 +18,6 @@ import '../styles/modules/postByTags/index.css';
 import Post from "../components/Post";
 import TagsBlock from '../components/TagsBlock';
 
-type AuthorType = {
-	_id: string,
-	fullName: string,
-	email: string,
-}
 
 type PostData  = {
 	_id: string,
@@ -39,21 +30,21 @@ type PostData  = {
 	createdAt: string
 }
 
-const PostByTags: React.FC = ()  =>{
+const PostByTags: React.FC = () => {
     const dispatch = useAppDispatch()
 
 	const { postsByTags, tags } = useSelector(selectPosts)
 	const userData = useSelector(selectAuthData)
 
-	const isPostsByTagsLoading = postsByTags.status === 'loading'
-	const isTagsLoading = tags.status === 'loading'
+	const isPostsByTagsLoading: boolean = postsByTags.status === 'loading'
+	const isTagsLoading: boolean = tags.status === 'loading'
 
 	const {id} = useParams()
 	const fetch = async (): Promise<void> => {
-		const {payload} = await dispatch(fetchPostsByTags(String(id)))
+		dispatch(fetchPostsByTags(String(id)))
 	}
 	
-	useEffect(() => {
+	useEffect((): void => {
 		fetch()
 	}, [id])
 

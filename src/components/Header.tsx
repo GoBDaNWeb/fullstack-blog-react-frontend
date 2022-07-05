@@ -17,7 +17,7 @@ const Header: React.FC = () => {
 
 	const dispatch = useDispatch()
 
-  	const onClickLogout = () => {
+  	const onClickLogout = (): void => {
 		dispatch(logout())
 		window.localStorage.removeItem('token')
 	}

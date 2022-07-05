@@ -44,7 +44,7 @@ const FullPost: React.FC = () => {
 
 	const {id} = useParams()
 
-	const fetchPost = async () => {
+	const fetchPost = async (): Promise<void> => {
 		try {
 			const {data} = await axios.get(`/posts/${id}`)
 			setPost(data)
@@ -54,7 +54,7 @@ const FullPost: React.FC = () => {
 		}
 	}
 
-	const fetchComments = async () => {
+	const fetchComments = async (): Promise<void> => {
 		try {
 			const {data} = await axios.get(`/get-comments/${id}`)
 			setComments(data)
@@ -64,7 +64,7 @@ const FullPost: React.FC = () => {
 		}
 	}
 	
-	useEffect(() => {
+	useEffect((): void => {
 		fetchPost()
 		fetchComments()
 	}, [])

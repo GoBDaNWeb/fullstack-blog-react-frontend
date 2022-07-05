@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 		mode: 'onChange'
 	})
 
-	const onSubmit = async (value: AuthLoginParams): Promise<any> => {
+	const onSubmit = async (value: AuthLoginParams): Promise<void> => {
 		try {
 			const {payload} = await dispatch(fetchLogin(value))
 			if (!payload) {

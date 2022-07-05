@@ -11,10 +11,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const AddComment: React.FC = () => {
-	const [comment, setComment] = useState('')
+	const [comment, setComment] = useState<string>('')
 	const {id} = useParams()
 
-	const onSubmit = async () => {
+	const onSubmit = async (): Promise<void> => {
 		axios.post(`/add-comment/${id}`, {text: comment})
 		setComment('')
 	}

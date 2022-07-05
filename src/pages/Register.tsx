@@ -31,8 +31,7 @@ const Register: React.FC = () => {
 		mode: 'onChange'
 	})
 
-	const onSubmit = async (value: AuthRegisterParams): Promise<any> => {
-		console.log(value);
+	const onSubmit = async (value: AuthRegisterParams): Promise<void> => {
 		const data = await dispatch(fetchRegister(value))
 		if (!data.payload) {
 			return alert('Не удалось авторизоваться')

@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 
 type SideBlockProps = {
 	title: string,
-	children: any
+	children: React.ReactNode
 }
 
 const SideBlock: React.FC<SideBlockProps> = ({ title, children }) => {
