@@ -56,7 +56,7 @@ const FullPost: React.FC = () => {
 
 	const fetchComments = async (): Promise<void> => {
 		try {
-			const {data} = await axios.get(`/get-comments/${id}`)
+			const {data} = await axios.get(`/comments/get-comments/${id}`)
 			setComments(data)
 		} catch (error) {
 			console.warn(error);

@@ -15,7 +15,7 @@ const AddComment: React.FC = () => {
 	const {id} = useParams()
 
 	const onSubmit = async (): Promise<void> => {
-		axios.post(`/add-comment/${id}`, {text: comment})
+		axios.post(`/comments/add-comment/${id}`, {text: comment})
 		setComment('')
 	}
 
