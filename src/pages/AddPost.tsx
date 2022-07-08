@@ -99,7 +99,7 @@ const AddPost: React.FC = () => {
 			})
 		}
 	}, [])
-
+	
 	const options = useMemo<OptionsData>(() => (
 		{
 			spellChecker: false,
@@ -141,7 +141,7 @@ const AddPost: React.FC = () => {
 						</Button>
 						<img 
 							className='image'
-							src={`http://localhost:1818${imageUrl}`} 
+							src={`${process.env.REACT_APP_API_URL}${imageUrl}`} 
 							alt="Uploaded" 
 						/>
 					</>

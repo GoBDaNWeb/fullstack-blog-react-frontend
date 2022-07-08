@@ -75,7 +75,7 @@ const PostByTags: React.FC = () => {
 									id={post?._id}
 									key={index}
 									title={post?.title}
-									imageUrl={post?.imageUrl ? `http://localhost:1818${post.imageUrl}` : ''}
+									imageUrl={post?.imageUrl ? `${process.env.REACT_APP_API_URL}${post.imageUrl}` : ''}
 									author={post?.author}
 									createdAt={post?.createdAt}
 									viewsCount={post?.viewsCount}
