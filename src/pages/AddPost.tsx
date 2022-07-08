@@ -141,7 +141,7 @@ const AddPost: React.FC = () => {
 						</Button>
 						<img 
 							className='image'
-							src={`${process.env.REACT_APP_API_URL}${imageUrl}`} 
+							src={`http://localhost:1818${imageUrl}`} 
 							alt="Uploaded" 
 						/>
 					</>
