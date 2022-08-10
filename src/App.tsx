@@ -13,16 +13,15 @@ import Container from "@mui/material/Container";
 
 // * components
 import Header from "./components/Header";
-import Home from './pages/Home'
-import FullPost from './pages/FullPost'
-import Register from './pages/Register'
-import AddPost from './pages/AddPost'
-import Login from './pages/Login'
-import PostByTags from "./pages/PostByTags";
+import HomePage from './pages/Home'
+import FullPostPage from './pages/FullPost'
+import RegisterPage from './pages/Register'
+import AddPostPage from './pages/AddPost'
+import LoginPage from './pages/Login'
+import PostByTagsPage from "./pages/PostByTags";
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch()
-	const isAuth = useSelector(selectIsAuth)
 
 	useEffect(() => {
 		dispatch(fetchAuth())
@@ -33,13 +32,13 @@ const App: React.FC = () => {
 			<Header />
 			<Container maxWidth="lg">
 				<Routes>
-					<Route path='/' element={<Home />}/>
-					<Route path='/tags/:id' element={<PostByTags />}/>
-					<Route path='/posts/:id' element={<FullPost />}/>
-					<Route path='/posts/:id/edit' element={<AddPost />}/>
-					<Route path='/create-post' element={<AddPost />}/>
-					<Route path='/login' element={<Login />}/>
-					<Route path='/register' element={<Register />}/>
+					<Route path='/' element={<HomePage />}/>
+					<Route path='/tags/:id' element={<PostByTagsPage />}/>
+					<Route path='/posts/:id' element={<FullPostPage />}/>
+					<Route path='/posts/:id/edit' element={<AddPostPage />}/>
+					<Route path='/create-post' element={<AddPostPage />}/>
+					<Route path='/login' element={<LoginPage />}/>
+					<Route path='/register' element={<RegisterPage />}/>
 				</Routes>
 			</Container>
 		</>
