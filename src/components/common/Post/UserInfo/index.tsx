@@ -2,7 +2,7 @@
 import React from 'react';
 
 // * styles/MUI
-import '../styles/modules/userInfo/index.css';
+import '@styles/modules/userInfo/index.css';
 
 const UserInfo: React.FC<Record<string, string>> = ({ avatarUrl, fullName, additionalText }) => {
 	return (

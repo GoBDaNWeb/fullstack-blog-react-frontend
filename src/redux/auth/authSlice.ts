@@ -6,7 +6,7 @@ import {AuthStatus, AuthDataType, AuthState, AuthLoginParams, AuthRegisterParams
 import axios from '../../axios'
 
 export const fetchLogin = createAsyncThunk<AuthDataType, AuthLoginParams>('auth/fetchLogin', async (params) => {
-    const {data} = await axios.post<AuthDataType>('/auth/login', params)
+    const {data} = await axios.post('/auth/login', params)
     return data
 })
 

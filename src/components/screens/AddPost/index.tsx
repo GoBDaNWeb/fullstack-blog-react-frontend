@@ -1,13 +1,14 @@
 // * react
 import React, {useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import {Link, Navigate, useNavigate, useParams} from'react-router-dom'
+import {IOptionsData} from './types'
 
 // * axios
 import axios from '../../../axios'
 
 // * redux
 import { useSelector} from 'react-redux'
-import {selectIsAuth} from '../../../redux/auth/selectors'
+import {selectIsAuth} from '@redux/auth/selectors'
 
 // * styles/MUI
 import TextField from '@mui/material/TextField';
@@ -15,15 +16,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
-import "../../../styles/modules/addPost/index.css";
-
-interface OptionsData {
-	spellChecker: boolean,
-	maxHeight: string,
-	autofocus: boolean,
-	placeholder: string,
-	status: boolean,
-}
+import "@styles/modules/addPost/index.css";
 
 const AddPost: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)
@@ -43,9 +36,6 @@ const AddPost: React.FC = () => {
 			if (!e.target.files) {
 				return
 			}
-			console.log(e)
-			console.log(e.target)
-			console.log(e.target.files)
 			const formData = new FormData()
 			const file = e.target.files[0]
 			formData.append('image', file)
@@ -86,21 +76,21 @@ const AddPost: React.FC = () => {
 		}
 	}
 
+	const fetchAndSetPost = async (): Promise<void> => {
+		const {data: postData} = await axios.get(`/posts/${id}`)
+		setTitle(postData.title)
+		setText(postData.text)
+		setImageUrl(postData.imageUrl)
+		setTags(postData.tags.join(','))
+	}
+
 	useEffect((): void => {
 		if (id) {
-			axios.get(`/posts/${id}`).then(({data}) => {
-				setTitle(data.title)
-				setText(data.text)
-				setImageUrl(data.imageUrl)
-				setTags(data.tags.join(','))
-			}).catch(err => {
-				console.warn(err);
-				alert('Ошибка при получении статьи')
-			})
+			fetchAndSetPost()
 		}
 	}, [])
 	
-	const options = useMemo<OptionsData>(() => (
+	const options = useMemo<IOptionsData>(() => (
 		{
 			spellChecker: false,
 			maxHeight: '400px',

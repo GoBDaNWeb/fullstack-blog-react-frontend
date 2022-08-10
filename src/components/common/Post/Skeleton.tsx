@@ -4,7 +4,7 @@ import React from "react";
 // * styles/MUI
 import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
-import "../styles/modules/post/index.css";
+import "@styles/modules/post/index.css";
 
 export default function PostSkeleton() {
   return (

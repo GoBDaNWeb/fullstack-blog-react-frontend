@@ -4,19 +4,19 @@ import {useParams} from 'react-router-dom'
 
 // * redux 
 import {useSelector} from 'react-redux'
-import {useAppDispatch} from '../../../redux/store'
-import {fetchPostsByTags} from '../../../redux/posts/postSlice'
-import {selectPosts} from '../../../redux/posts/selectors'
-import {selectAuthData} from '../../../redux/auth/selectors'
+import {useAppDispatch} from '@redux/store'
+import {fetchPostsByTags} from '@redux/posts/postSlice'
+import {selectPosts} from '@redux/posts/selectors'
+import {selectAuthData} from '@redux/auth/selectors'
 
 // * styles/MUI
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import '../../../styles/modules/postByTags/index.css';
+import '@styles/modules/postByTags/index.css';
 
 // * components
-import Post from "../../Post";
-import TagsBlock from '../../TagsBlock';
+import Post from "@components/common/Post";
+import TagsBlock from '@components/common/TagsBlock';
 
 
 type PostData  = {

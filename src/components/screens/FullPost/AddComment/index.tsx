@@ -3,10 +3,10 @@ import React, {useState} from "react";
 import {useParams} from 'react-router-dom'
 
 // * axios 
-import axios from '../axios'
+import axios from '../../../../axios'
 
 // * styles/MUI
-import "../styles/modules/addComment/index.css";
+import "@styles/modules/addComment/index.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 

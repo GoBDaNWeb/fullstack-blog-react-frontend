@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom'
 
 // * redux 
 import {useDispatch, useSelector} from 'react-redux'
-import {logout} from '../redux/auth/authSlice'
-import {selectIsAuth} from '../redux/auth/selectors'
+import {logout} from '@redux/auth/authSlice'
+import {selectIsAuth} from '@redux/auth/selectors'
 
 // * styles/MUI
 import Button from '@mui/material/Button';
-import '../styles/modules/header/index.css';
+import '@styles/modules/header/index.css';
 import Container from '@mui/material/Container';
 
 const Header: React.FC = () => {
@@ -30,7 +30,7 @@ const Header: React.FC = () => {
 						to={'/'} 
 						className='logo'
 					>
-						<div>BOGDAN BLOG</div>
+						<div>FULLSTACK BLOG</div>
 					</Link>
 					<div className='buttons'>
 					{

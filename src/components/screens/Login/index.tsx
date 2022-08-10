@@ -5,17 +5,17 @@ import {Navigate} from 'react-router-dom'
 
 // * redux 
 import {useSelector} from 'react-redux'
-import {useAppDispatch} from '../../../redux/store'
-import {fetchLogin} from '../../../redux/auth/authSlice'
-import {selectIsAuth} from '../../../redux/auth/selectors'
-import {AuthLoginParams, AuthDataType} from '../../../redux/auth/types'
+import {useAppDispatch} from '@redux/store'
+import {fetchLogin} from '@redux/auth/authSlice'
+import {selectIsAuth} from '@redux/auth/selectors'
+import {AuthLoginParams} from '@redux/auth/types'
 
 // * styles/MUI
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import "../../../styles/modules/login/index.css";
+import "@styles/modules/login/index.css";
 
 const Login: React.FC = () => {
 	const isAuth = useSelector(selectIsAuth)

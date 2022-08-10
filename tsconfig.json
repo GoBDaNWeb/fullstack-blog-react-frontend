@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@pages/*": [ "pages/*"],
+      "@styles/*": [ "styles/*"],
+      "@components/*": [ "components/*"],
+      "@redux/*": [ "redux/*"],
+    },
     "target": "es5",
     "lib": [
       "dom",

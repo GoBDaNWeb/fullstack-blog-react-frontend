@@ -3,16 +3,14 @@ import React, {useEffect} from 'react'
 import { Routes, Route} from 'react-router-dom'
 
 // * redux 
-import {useSelector} from 'react-redux'
 import {useAppDispatch} from './redux/store'
 import {fetchAuth} from './redux/auth/authSlice'
-import {selectIsAuth} from './redux/auth/selectors'
 
 // * styles/MUI
 import Container from "@mui/material/Container";
 
 // * components
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import HomePage from './pages/Home'
 import FullPostPage from './pages/FullPost'
 import RegisterPage from './pages/Register'

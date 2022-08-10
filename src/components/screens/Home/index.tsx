@@ -3,73 +3,25 @@ import React, {useEffect, useState} from 'react';
 
 // * redux
 import {useSelector} from 'react-redux'
-import {useAppDispatch} from '../../../redux/store'
-import {selectPosts} from '../../../redux/posts/selectors'
-import {selectAuthData} from '../../../redux/auth/selectors'
-import {fetchAllPosts, fetchPopularPosts, fetchTags} from '../../../redux/posts/postSlice'
-
+import {useAppDispatch} from '@redux/store'
+import {selectPosts} from '@redux/posts/selectors'
+import {fetchAllPosts, fetchPopularPosts, fetchTags} from '@redux/posts/postSlice'
 
 // * styles
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // * components
-import Post from '../../Post';
-import TagsBlock from '../../TagsBlock';
-
-type TabPanelType = {
-	children?: React.ReactNode[],
-	index: number,
-	value: number
-}
-
-function TabPanel(props: TabPanelType) {
-	const { children, value, index, ...other } = props;
-  
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && (
-			<Box sx={{ p: 3 }}>
-				<Typography component="div">{children}</Typography>
-			</Box>
-			)}
-		</div>
-	);
-}
-  
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.number.isRequired,
-	value: PropTypes.number.isRequired,
-};
-
+import TagsBlock from '@components/common/TagsBlock';
+import AllPosts from './AllPosts';
+import PopularPosts from './PopularPosts';
 
 function a11yProps(index: number) {
 	return {
 	  id: `simple-tab-${index}`,
 	  'aria-controls': `simple-tabpanel-${index}`,
 	};
-}
-
-type PostData  = {
-	_id: string,
-	title: string,
-	text: string,
-	tags: string[],
-	viewsCount: number,
-	author: Record<string, string>,
-	imageUrl: string,
-	createdAt: string
 }
 
 const Home: React.FC = () => {
@@ -80,11 +32,8 @@ const Home: React.FC = () => {
 	  };	
 
 	const dispatch = useAppDispatch()
-	const { posts, popularPosts, tags } = useSelector(selectPosts)
-	const userData = useSelector(selectAuthData)
+	const { tags } = useSelector(selectPosts)
 
-	const isPostsLoading: boolean = posts.status === 'loading'
-	const isPopularPostsLoading: boolean = popularPosts.status === 'loading'
 	const isTagsLoading: boolean = tags.status === 'loading'
 	
 	useEffect((): void => {
@@ -122,53 +71,9 @@ const Home: React.FC = () => {
 					xs={8} 
 					item
 				>
-					<TabPanel value={value} index={0}>
-						{
-							(
-								isPostsLoading 
-								? [...Array(5)]
-								: posts.items
-							).map((post: PostData, index: number) => (
-								<Post
-									id={post?._id}
-									key={index}
-									title={post?.title}
-									imageUrl={post?.imageUrl ? `${process.env.REACT_APP_API_URL}${post.imageUrl}` : ''}
-									author={post?.author}
-									createdAt={post?.createdAt}
-									viewsCount={post?.viewsCount}
-									tags={post?.tags}
-									isEditable={userData?._id === post?.author._id}
-									isLoading={!post ? true : false}
-								/>
-							))
-						}
-					</TabPanel>
-					<TabPanel value={value} index={1}>
-						{
-							(
-								isPopularPostsLoading 
-								? [...Array(5)]
-								: popularPosts.items
-							).map((post: PostData, index: number) => (
-								<Post
-									id={post?._id}
-									key={index}
-									title={post?.title}
-									imageUrl={post?.imageUrl ? `${process.env.REACT_APP_API_URL}${post.imageUrl}` : ''}
-									author={post?.author}
-									createdAt={post?.createdAt}
-									viewsCount={post?.viewsCount}
-									tags={post?.tags}
-									isEditable={userData?._id === post?.author._id}
-									isLoading={!post ? true : false}
-								/>
-							))
-						}
-					</TabPanel>
+					<AllPosts value={value}/>
+					<PopularPosts value={value}/>
 				</Grid>
-			
-				
 				<Grid 
 					xs={4} 
 					item
